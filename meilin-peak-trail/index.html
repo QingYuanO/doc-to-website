@@ -124,6 +124,79 @@
             0% { background-position: -200% 0; }
             100% { background-position: 200% 0; }
         }
+
+        /* 自定义水平滚动条样式 */
+        .overflow-x-auto {
+            scrollbar-width: thin;
+            scrollbar-color: rgba(156, 163, 175, 0.5) transparent;
+        }
+
+        .overflow-x-auto::-webkit-scrollbar {
+            height: 6px;
+        }
+
+        .overflow-x-auto::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .overflow-x-auto::-webkit-scrollbar-thumb {
+            background-color: rgba(156, 163, 175, 0.5);
+            border-radius: 3px;
+        }
+
+        /* 懒加载占位符样式 */
+        .lazy-image {
+            background: linear-gradient(90deg, #f1f5f9 0%, #e2e8f0 50%, #f1f5f9 100%);
+            background-size: 200% 100%;
+            animation: shimmer 1.5s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+
+        /* 图片容器悬停效果 */
+        .image-hover {
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .image-hover::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.1) 100%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .image-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.2);
+        }
+
+        .image-hover:hover::after {
+            opacity: 1;
+        }
+
+        /* 深色模式适配 */
+        .dark .image-hover:hover {
+            box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.4);
+        }
+
+        .dark .image-hover::after {
+            background: linear-gradient(to bottom, transparent 0%, rgba(255,255,255,0.05) 100%);
+        }
+
+        /* 添加图片缩放效果 */
+        .image-hover img {
+            transition: transform 0.3s ease;
+        }
+
+        .image-hover:hover img {
+            transform: scale(1.05);
+        }
     </style>
 </head>
 <body class="bg-white dark:bg-secondary-900 text-secondary-800 dark:text-secondary-100 transition-colors duration-300">
@@ -224,6 +297,19 @@
             </div>
             <p class="mb-8 text-lg text-secondary-600 dark:text-secondary-300">沿途有明确的指示牌，往涂鸦墙方向走就对了。以下是三条可选路线：</p>
             
+            <!-- 将轮播图部分替换为水平滚动图片列表 -->
+            <div class="mb-8 fade-in">
+              <div class="relative">
+                <div class="overflow-x-auto">
+                  <div class="flex space-x-4 pb-4">
+                    <div id="image-container" class="flex space-x-4">
+                      <!-- 图片将通过 JavaScript 动态添加，wrapper 类名会在 JS 中设置 -->
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <!-- 路线一 -->
                 <div class="route-card bg-white dark:bg-secondary-800 rounded-xl overflow-hidden shadow-sm">
@@ -313,9 +399,6 @@
                 </div>
             </div>
         </section>
-
-        <!-- 路线三图片展示部分 -->
-
 
         <!-- 交通部分 -->
         <section id="transportation" class="mb-16 fade-in">
@@ -489,6 +572,87 @@
                     });
                 });
             });
+        });
+    </script>
+
+    <!-- 轮播图功能 -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const images = [
+                'https://cdn.jsdelivr.net/gh/QingYuanO/images/doc-to-website/meilin-peak-trail/image1.png?w=400',
+                'https://cdn.jsdelivr.net/gh/QingYuanO/images/doc-to-website/meilin-peak-trail/image2.png?w=400',
+                'https://cdn.jsdelivr.net/gh/QingYuanO/images/doc-to-website/meilin-peak-trail/image3.png?w=400',
+                'https://cdn.jsdelivr.net/gh/QingYuanO/images/doc-to-website/meilin-peak-trail/image4.png?w=400',
+                'https://cdn.jsdelivr.net/gh/QingYuanO/images/doc-to-website/meilin-peak-trail/image5.png?w=400',
+                'https://cdn.jsdelivr.net/gh/QingYuanO/images/doc-to-website/meilin-peak-trail/image6.png?w=400',
+                'https://cdn.jsdelivr.net/gh/QingYuanO/images/doc-to-website/meilin-peak-trail/image7.png?w=400',
+                'https://cdn.jsdelivr.net/gh/QingYuanO/images/doc-to-website/meilin-peak-trail/image8.png?w=400',
+                'https://cdn.jsdelivr.net/gh/QingYuanO/images/doc-to-website/meilin-peak-trail/image9.png?w=400',
+                'https://cdn.jsdelivr.net/gh/QingYuanO/images/doc-to-website/meilin-peak-trail/image10.png?w=400',
+                'https://cdn.jsdelivr.net/gh/QingYuanO/images/doc-to-website/meilin-peak-trail/image11.png?w=400',
+                'https://cdn.jsdelivr.net/gh/QingYuanO/images/doc-to-website/meilin-peak-trail/image12.png?w=400',
+                'https://cdn.jsdelivr.net/gh/QingYuanO/images/doc-to-website/meilin-peak-trail/image13.png?w=400',
+                'https://cdn.jsdelivr.net/gh/QingYuanO/images/doc-to-website/meilin-peak-trail/image14.png?w=400',
+                'https://cdn.jsdelivr.net/gh/QingYuanO/images/doc-to-website/meilin-peak-trail/image15.png?w=400',
+                'https://cdn.jsdelivr.net/gh/QingYuanO/images/doc-to-website/meilin-peak-trail/image16.png?w=400',
+                'https://cdn.jsdelivr.net/gh/QingYuanO/images/doc-to-website/meilin-peak-trail/image17.png?w=400'
+            ];
+
+            const container = document.getElementById('image-container');
+            
+            images.forEach((src, index) => {
+                const wrapper = document.createElement('div');
+                wrapper.className = 'flex-shrink-0 w-72 h-48 bg-gray-100 dark:bg-gray-800 rounded-lg overflow-hidden image-hover';
+                
+                const img = document.createElement('img');
+                img.dataset.src = src;
+                img.alt = `路线指示图 ${index + 1}`;
+                img.className = 'w-full h-full object-cover lazy-image';
+                
+                // 添加点击放大功能
+                wrapper.addEventListener('click', () => {
+                    const viewer = document.createElement('div');
+                    viewer.className = 'fixed inset-0 z-50 flex items-center justify-center bg-black/90 cursor-pointer';
+                    
+                    const fullImg = document.createElement('img');
+                    fullImg.src = src;
+                    fullImg.className = 'max-w-[90%] max-h-[90vh] object-contain';
+                    
+                    // 添加关闭按钮
+                    const closeBtn = document.createElement('button');
+                    closeBtn.className = 'absolute top-4 right-4 text-white hover:text-gray-300 transition-colors';
+                    closeBtn.innerHTML = '<i class="fas fa-times text-2xl"></i>';
+                    
+                    viewer.addEventListener('click', (e) => {
+                        if (e.target === viewer) viewer.remove();
+                    });
+                    closeBtn.addEventListener('click', () => viewer.remove());
+                    
+                    viewer.appendChild(fullImg);
+                    viewer.appendChild(closeBtn);
+                    document.body.appendChild(viewer);
+                });
+
+                wrapper.appendChild(img);
+                container.appendChild(wrapper);
+            });
+
+            // 实现懒加载
+            const lazyImages = document.querySelectorAll('.lazy-image');
+            const imageObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const img = entry.target;
+                        img.src = img.dataset.src;
+                        img.classList.remove('lazy-image');
+                        observer.unobserve(img);
+                    }
+                });
+            }, {
+                rootMargin: '50px'
+            });
+
+            lazyImages.forEach(img => imageObserver.observe(img));
         });
     </script>
 </body>

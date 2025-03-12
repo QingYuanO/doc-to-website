@@ -1,6 +1,8 @@
-# 将任何文档变成精美网页杂志
-
-# 提示词
+---
+description: 
+globs: .html
+alwaysApply: false
+---
 
 将下面提示词中我的名字和推特链接换成你
 
