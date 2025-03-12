@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>深圳梅林山郊野径徒步指南</title>
+    <!-- TailwindCSS 3.0+ -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        // 配置Tailwind
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            200: '#bae6fd',
+                            300: '#7dd3fc',
+                            400: '#38bdf8',
+                            500: '#0ea5e9',
+                            600: '#0284c7',
+                            700: '#0369a1',
+                            800: '#075985',
+                            900: '#0c4a6e',
+                        },
+                        secondary: {
+                            50: '#f8fafc',
+                            100: '#f1f5f9',
+                            200: '#e2e8f0',
+                            300: '#cbd5e1',
+                            400: '#94a3b8',
+                            500: '#64748b',
+                            600: '#475569',
+                            700: '#334155',
+                            800: '#1e293b',
+                            900: '#0f172a',
+                        },
+                        accent: {
+                            50: '#ecfdf5',
+                            100: '#d1fae5',
+                            200: '#a7f3d0',
+                            300: '#6ee7b7',
+                            400: '#34d399',
+                            500: '#10b981',
+                            600: '#059669',
+                            700: '#047857',
+                            800: '#065f46',
+                            900: '#064e3b',
+                        },
+                    },
+                },
+            },
+        }
+    </script>
+    <style type="text/css">
+        /* 自定义样式 */
+        .fade-in {
+            animation: fadeIn 0.8s ease-in-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .route-card {
+            transition: all 0.3s ease;
+        }
+        
+        .route-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        
+        .btn {
+            transition: all 0.2s ease;
+        }
+        
+        .btn:hover {
+            transform: scale(1.05);
+        }
+        
+        /* 滚动条美化 */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        
+        .dark ::-webkit-scrollbar-thumb {
+            background: #475569;
+        }
+        
+        /* 平滑滚动 */
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        /* 懒加载占位符 */
+        .lazy-placeholder {
+            background: linear-gradient(90deg, #f1f5f9 0%, #e2e8f0 50%, #f1f5f9 100%);
+            background-size: 200% 100%;
+            animation: shimmer 1.5s infinite;
+        }
+        
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+    </style>
+</head>
+<body class="bg-white dark:bg-secondary-900 text-secondary-800 dark:text-secondary-100 transition-colors duration-300">
+    <!-- 导航栏 -->
+    <header class="sticky top-0 z-50 bg-white/80 dark:bg-secondary-900/80 backdrop-blur-md border-b border-secondary-200 dark:border-secondary-800">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center">
+                    <a href="#" class="flex items-center">
+                        <i class="fas fa-mountain text-primary-600 dark:text-primary-400 text-2xl mr-2"></i>
+                        <span class="font-bold text-xl">梅林山郊野径</span>
+                    </a>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <nav class="hidden md:flex space-x-6">
+                        <a href="#overview" class="text-secondary-600 dark:text-secondary-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">概览</a>
+                        <a href="#routes" class="text-secondary-600 dark:text-secondary-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">路线</a>
+                        <a href="#transportation" class="text-secondary-600 dark:text-secondary-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">交通</a>
+                        <a href="#tips" class="text-secondary-600 dark:text-secondary-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">贴士</a>
+                    </nav>
+                    <button id="theme-toggle" class="p-2 rounded-full text-secondary-600 dark:text-secondary-300 hover:bg-secondary-100 dark:hover:bg-secondary-800 transition-colors">
+                        <i class="fas fa-sun dark:hidden"></i>
+                        <i class="fas fa-moon hidden dark:inline"></i>
+                    </button>
+                    <button id="mobile-menu-button" class="md:hidden p-2 rounded-full text-secondary-600 dark:text-secondary-300 hover:bg-secondary-100 dark:hover:bg-secondary-800 transition-colors">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                </div>
+            </div>
+            <!-- 移动端菜单 -->
+            <div id="mobile-menu" class="md:hidden hidden pb-4">
+                <div class="flex flex-col space-y-3">
+                    <a href="#overview" class="text-secondary-600 dark:text-secondary-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors py-2">概览</a>
+                    <a href="#routes" class="text-secondary-600 dark:text-secondary-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors py-2">路线</a>
+                    <a href="#transportation" class="text-secondary-600 dark:text-secondary-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors py-2">交通</a>
+                    <a href="#tips" class="text-secondary-600 dark:text-secondary-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors py-2">贴士</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- 主要内容 -->
+    <main class="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <!-- 英雄区域 -->
+        <section class="relative rounded-2xl overflow-hidden mb-16 fade-in">
+            <div class="bg-gradient-to-r from-primary-600 to-accent-600 h-64 sm:h-80 md:h-96 flex items-center justify-center">
+                <div class="text-center text-white p-6">
+                    <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold mb-4">深圳梅林山郊野径</h1>
+                    <p class="text-lg sm:text-xl opacity-90">途经大脑壳-涂鸦墙-梅林水库</p>
+                </div>
+            </div>
+            <div class="absolute bottom-0 left-0 w-full h-16 bg-gradient-to-t from-white dark:from-secondary-900 to-transparent"></div>
+        </section>
+
+        <!-- 概览部分 -->
+        <section id="overview" class="mb-16 fade-in">
+            <div class="flex items-center mb-6">
+                <i class="fas fa-info-circle text-primary-600 dark:text-primary-400 text-2xl mr-3"></i>
+                <h2 class="text-2xl sm:text-3xl font-bold">路线概览</h2>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="bg-white dark:bg-secondary-800 rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow">
+                    <div class="flex items-center mb-3">
+                        <i class="fas fa-ruler text-primary-500 dark:text-primary-400 text-xl mr-3"></i>
+                        <h3 class="text-lg font-semibold">路线全长</h3>
+                    </div>
+                    <p class="text-2xl font-bold text-secondary-900 dark:text-white">12公里<span class="text-base font-normal text-secondary-500 dark:text-secondary-400">左右</span></p>
+                </div>
+                <div class="bg-white dark:bg-secondary-800 rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow">
+                    <div class="flex items-center mb-3">
+                        <i class="fas fa-mountain text-primary-500 dark:text-primary-400 text-xl mr-3"></i>
+                        <h3 class="text-lg font-semibold">累计爬升</h3>
+                    </div>
+                    <p class="text-2xl font-bold text-secondary-900 dark:text-white">670<span class="text-base font-normal text-secondary-500 dark:text-secondary-400">米</span></p>
+                </div>
+                <div class="bg-white dark:bg-secondary-800 rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow">
+                    <div class="flex items-center mb-3">
+                        <i class="fas fa-clock text-primary-500 dark:text-primary-400 text-xl mr-3"></i>
+                        <h3 class="text-lg font-semibold">徒步时长</h3>
+                    </div>
+                    <p class="text-2xl font-bold text-secondary-900 dark:text-white">4<span class="text-base font-normal text-secondary-500 dark:text-secondary-400">小时</span></p>
+                </div>
+                <div class="bg-white dark:bg-secondary-800 rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow">
+                    <div class="flex items-center mb-3">
+                        <i class="fas fa-hiking text-primary-500 dark:text-primary-400 text-xl mr-3"></i>
+                        <h3 class="text-lg font-semibold">攀登难度</h3>
+                    </div>
+                    <p class="text-2xl font-bold text-secondary-900 dark:text-white">中等</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 路线部分 -->
+        <section id="routes" class="mb-16 fade-in">
+            <div class="flex items-center mb-6">
+                <i class="fas fa-route text-primary-600 dark:text-primary-400 text-2xl mr-3"></i>
+                <h2 class="text-2xl sm:text-3xl font-bold">路线选择</h2>
+            </div>
+            <p class="mb-8 text-lg text-secondary-600 dark:text-secondary-300">沿途有明确的指示牌，往涂鸦墙方向走就对了。以下是三条可选路线：</p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- 路线一 -->
+                <div class="route-card bg-white dark:bg-secondary-800 rounded-xl overflow-hidden shadow-sm">
+                    <div class="bg-primary-100 dark:bg-primary-900/30 p-4">
+                        <div class="flex justify-between items-center">
+                            <h3 class="text-xl font-bold text-primary-900 dark:text-primary-100">路线一</h3>
+                            <span class="bg-green-100 text-green-800 dark:bg-green-900/50 dark:text-green-200 text-xs font-medium px-2.5 py-0.5 rounded-full">初级</span>
+                        </div>
+                        <p class="text-sm text-secondary-500 dark:text-secondary-400 mt-1">适合初次徒步者</p>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center mb-4">
+                            <i class="fas fa-map-signs text-primary-500 dark:text-primary-400 mr-3"></i>
+                            <p class="text-secondary-700 dark:text-secondary-300">梅坳出入口-清风岭-四号登山口-绿道-梅林水库-梅林文体中心</p>
+                        </div>
+                        <div class="flex items-center mb-4">
+                            <i class="fas fa-ruler-horizontal text-primary-500 dark:text-primary-400 mr-3"></i>
+                            <p class="text-secondary-700 dark:text-secondary-300">距离：约<span class="font-semibold">5公里</span></p>
+                        </div>
+                        <div class="flex items-center mb-4">
+                            <i class="fas fa-tachometer-alt text-primary-500 dark:text-primary-400 mr-3"></i>
+                            <p class="text-secondary-700 dark:text-secondary-300">难度：<span class="font-semibold">低</span></p>
+                        </div>
+                        <div class="border-t border-secondary-200 dark:border-secondary-700 pt-4 mt-4">
+                            <h4 class="font-semibold mb-2 text-secondary-900 dark:text-white">特点：</h4>
+                            <p class="text-secondary-600 dark:text-secondary-400">比较短、比较简单，能体会到郊野径的趣味。</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 路线二 -->
+                <div class="route-card bg-white dark:bg-secondary-800 rounded-xl overflow-hidden shadow-sm">
+                    <div class="bg-primary-200 dark:bg-primary-900/50 p-4">
+                        <div class="flex justify-between items-center">
+                            <h3 class="text-xl font-bold text-primary-900 dark:text-primary-100">路线二</h3>
+                            <span class="bg-yellow-100 text-yellow-800 dark:bg-yellow-900/50 dark:text-yellow-200 text-xs font-medium px-2.5 py-0.5 rounded-full">中级</span>
+                        </div>
+                        <p class="text-sm text-secondary-500 dark:text-secondary-400 mt-1">适合有一定经验的徒步者</p>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center mb-4">
+                            <i class="fas fa-map-signs text-primary-500 dark:text-primary-400 mr-3"></i>
+                            <p class="text-secondary-700 dark:text-secondary-300">梅坳出入口-清风岭-大脑壳-四号登山口-绿道-梅林水库-梅林文体中心</p>
+                        </div>
+                        <div class="flex items-center mb-4">
+                            <i class="fas fa-ruler-horizontal text-primary-500 dark:text-primary-400 mr-3"></i>
+                            <p class="text-secondary-700 dark:text-secondary-300">距离：约<span class="font-semibold">7公里</span></p>
+                        </div>
+                        <div class="flex items-center mb-4">
+                            <i class="fas fa-tachometer-alt text-primary-500 dark:text-primary-400 mr-3"></i>
+                            <p class="text-secondary-700 dark:text-secondary-300">难度：<span class="font-semibold">中等</span></p>
+                        </div>
+                        <div class="border-t border-secondary-200 dark:border-secondary-700 pt-4 mt-4">
+                            <h4 class="font-semibold mb-2 text-secondary-900 dark:text-white">特点：</h4>
+                            <p class="text-secondary-600 dark:text-secondary-400">大脑壳算是一个山顶，有观景的地方，站在上面可以远眺市区。</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 路线三 -->
+                <div class="route-card bg-white dark:bg-secondary-800 rounded-xl overflow-hidden shadow-sm">
+                    <div class="bg-primary-300 dark:bg-primary-900/70 p-4">
+                        <div class="flex justify-between items-center">
+                            <h3 class="text-xl font-bold text-primary-900 dark:text-primary-100">路线三</h3>
+                            <span class="bg-orange-100 text-orange-800 dark:bg-orange-900/50 dark:text-orange-200 text-xs font-medium px-2.5 py-0.5 rounded-full">进阶</span>
+                        </div>
+                        <p class="text-sm text-secondary-500 dark:text-secondary-400 mt-1">适合经验丰富的徒步者</p>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center mb-4">
+                            <i class="fas fa-map-signs text-primary-500 dark:text-primary-400 mr-3"></i>
+                            <p class="text-secondary-700 dark:text-secondary-300">梅坳出入口-清风岭-大脑壳-飞来石-白眉石-三区界碑-梅林水库绿道涂鸦墙-梅林水库-梅林文体中心</p>
+                        </div>
+                        <div class="flex items-center mb-4">
+                            <i class="fas fa-ruler-horizontal text-primary-500 dark:text-primary-400 mr-3"></i>
+                            <p class="text-secondary-700 dark:text-secondary-300">距离：约<span class="font-semibold">12公里</span></p>
+                        </div>
+                        <div class="flex items-center mb-4">
+                            <i class="fas fa-tachometer-alt text-primary-500 dark:text-primary-400 mr-3"></i>
+                            <p class="text-secondary-700 dark:text-secondary-300">难度：<span class="font-semibold">中等偏上</span></p>
+                        </div>
+                        <div class="border-t border-secondary-200 dark:border-secondary-700 pt-4 mt-4">
+                            <h4 class="font-semibold mb-2 text-secondary-900 dark:text-white">特点：</h4>
+                            <p class="text-secondary-600 dark:text-secondary-400">完整体验梅林山郊野径的精华路段，包括涂鸦墙等特色景点。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 路线三图片展示部分 -->
+        <section id="gallery" class="mb-16">
+            <div class="flex items-center mb-6">
+                <i class="fas fa-map text-primary-600 dark:text-primary-400 text-2xl mr-3"></i>
+                <h2 class="text-2xl sm:text-3xl font-bold">路线三图片展示</h2>
+            </div>
+            
+            <div class="bg-white dark:bg-secondary-800 rounded-xl p-6 shadow-sm">
+                <!-- 路线三介绍 -->
+                <div class="mb-8">
+                    <h3 class="text-xl font-semibold mb-4 flex items-center">
+                        <i class="fas fa-route text-primary-500 dark:text-primary-400 mr-2"></i>
+                        路线详情
+                    </h3>
+                    <div class="p-4 bg-primary-50 dark:bg-primary-900/20 rounded-lg">
+                        <p class="text-secondary-700 dark:text-secondary-300 mb-2">
+                            <span class="font-semibold">路线：</span>梅坳出入口-清风岭-大脑壳-飞来石-白眉石-三区界碑-梅林水库绿道涂鸦墙-梅林水库-梅林文体中心
+                        </p>
+                        <p class="text-secondary-700 dark:text-secondary-300 mb-2">
+                            <span class="font-semibold">距离：</span>约12公里
+                        </p>
+                        <p class="text-secondary-700 dark:text-secondary-300 mb-2">
+                            <span class="font-semibold">难度：</span>中等偏上
+                        </p>
+                        <p class="text-secondary-700 dark:text-secondary-300">
+                            <span class="font-semibold">特点：</span>完整体验梅林山郊野径的精华路段，包括涂鸦墙等特色景点。
+                        </p>
+                    </div>
+                </div>
+                
+                <!-- 图片画廊 -->
+                <h3 class="text-xl font-semibold mb-4 flex items-center">
+                    <i class="fas fa-images text-primary-500 dark:text-primary-400 mr-2"></i>
+                    路线图片展示
+                </h3>
+                
+                <!-- 图片网格 -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <!-- 图片1 -->
+                    <div class="route-card overflow-hidden rounded-lg">
+                        <div class="relative aspect-[4/3] overflow-hidden rounded-lg bg-secondary-100 dark:bg-secondary-700">
+                            <img 
+                                src="./image1.jpg" 
+                                alt="梅林山郊野径图片1" 
+                                class="w-full h-full object-cover cursor-pointer"
+                            >
+                        </div>
+                        <p class="mt-2 text-sm text-secondary-500 dark:text-secondary-400">路线起点</p>
+                    </div>
+                    
+                    <!-- 图片2 -->
+                    <div class="route-card overflow-hidden rounded-lg">
+                        <div class="relative aspect-[4/3] overflow-hidden rounded-lg bg-secondary-100 dark:bg-secondary-700">
+                            <img 
+                                src="./image2.jpg" 
+                                alt="梅林山郊野径图片2" 
+                                class="w-full h-full object-cover cursor-pointer"
+                            >
+                        </div>
+                        <p class="mt-2 text-sm text-secondary-500 dark:text-secondary-400">清风岭路段</p>
+                    </div>
+                    
+                    <!-- 图片3 -->
+                    <div class="route-card overflow-hidden rounded-lg">
+                        <div class="relative aspect-[4/3] overflow-hidden rounded-lg bg-secondary-100 dark:bg-secondary-700">
+                            <img 
+                                src="./image3.jpg" 
+                                alt="梅林山郊野径图片3" 
+                                class="w-full h-full object-cover cursor-pointer"
+                            >
+                        </div>
+                        <p class="mt-2 text-sm text-secondary-500 dark:text-secondary-400">大脑壳观景点</p>
+                    </div>
+                    
+                    <!-- 图片4 -->
+                    <div class="route-card overflow-hidden rounded-lg">
+                        <div class="relative aspect-[4/3] overflow-hidden rounded-lg bg-secondary-100 dark:bg-secondary-700">
+                            <img 
+                                src="./image4.jpg" 
+                                alt="梅林山郊野径图片4" 
+                                class="w-full h-full object-cover cursor-pointer"
+                            >
+                        </div>
+                        <p class="mt-2 text-sm text-secondary-500 dark:text-secondary-400">飞来石景点</p>
+                    </div>
+                    
+                    <!-- 图片5 -->
+                    <div class="route-card overflow-hidden rounded-lg">
+                        <div class="relative aspect-[4/3] overflow-hidden rounded-lg bg-secondary-100 dark:bg-secondary-700">
+                            <img 
+                                src="./image5.jpg" 
+                                alt="梅林山郊野径图片5" 
+                                class="w-full h-full object-cover cursor-pointer"
+                            >
+                        </div>
+                        <p class="mt-2 text-sm text-secondary-500 dark:text-secondary-400">白眉石景观</p>
+                    </div>
+                    
+                    <!-- 图片6 -->
+                    <div class="route-card overflow-hidden rounded-lg">
+                        <div class="relative aspect-[4/3] overflow-hidden rounded-lg bg-secondary-100 dark:bg-secondary-700">
+                            <img 
+                                src="./image6.jpg" 
+                                alt="梅林山郊野径图片6" 
+                                class="w-full h-full object-cover cursor-pointer"
+                            >
+                        </div>
+                        <p class="mt-2 text-sm text-secondary-500 dark:text-secondary-400">三区界碑</p>
+                    </div>
+                    
+                    <!-- 图片7 -->
+                    <div class="route-card overflow-hidden rounded-lg">
+                        <div class="relative aspect-[4/3] overflow-hidden rounded-lg bg-secondary-100 dark:bg-secondary-700">
+                            <img 
+                                src="./image7.jpg" 
+                                alt="梅林山郊野径图片7" 
+                                class="w-full h-full object-cover cursor-pointer"
+                            >
+                        </div>
+                        <p class="mt-2 text-sm text-secondary-500 dark:text-secondary-400">梅林水库绿道入口</p>
+                    </div>
+                    
+                    <!-- 图片8 -->
+                    <div class="route-card overflow-hidden rounded-lg">
+                        <div class="relative aspect-[4/3] overflow-hidden rounded-lg bg-secondary-100 dark:bg-secondary-700">
+                            <img 
+                                src="./image8.jpg" 
+                                alt="梅林山郊野径图片8" 
+                                class="w-full h-full object-cover cursor-pointer"
+                            >
+                        </div>
+                        <p class="mt-2 text-sm text-secondary-500 dark:text-secondary-400">涂鸦墙景点</p>
+                    </div>
+                    
+                    <!-- 图片9 -->
+                    <div class="route-card overflow-hidden rounded-lg">
+                        <div class="relative aspect-[4/3] overflow-hidden rounded-lg bg-secondary-100 dark:bg-secondary-700">
+                            <img 
+                                src="./image9.jpg" 
+                                alt="梅林山郊野径图片9" 
+                                class="w-full h-full object-cover cursor-pointer"
+                            >
+                        </div>
+                        <p class="mt-2 text-sm text-secondary-500 dark:text-secondary-400">梅林水库风光</p>
+                    </div>
+                    
+                    <!-- 图片10 -->
+                    <div class="route-card overflow-hidden rounded-lg">
+                        <div class="relative aspect-[4/3] overflow-hidden rounded-lg bg-secondary-100 dark:bg-secondary-700">
+                            <img 
+                                src="./image10.jpg" 
+                                alt="梅林山郊野径图片10" 
+                                class="w-full h-full object-cover cursor-pointer"
+                            >
+                        </div>
+                        <p class="mt-2 text-sm text-secondary-500 dark:text-secondary-400">水库绿道</p>
+                    </div>
+                    
+                    <!-- 图片11 -->
+                    <div class="route-card overflow-hidden rounded-lg">
+                        <div class="relative aspect-[4/3] overflow-hidden rounded-lg bg-secondary-100 dark:bg-secondary-700">
+                            <img 
+                                src="./image11.jpg" 
+                                alt="梅林山郊野径图片11" 
+                                class="w-full h-full object-cover cursor-pointer"
+                            >
+                        </div>
+                        <p class="mt-2 text-sm text-secondary-500 dark:text-secondary-400">山间小径</p>
+                    </div>
+                    
+                    <!-- 图片12 -->
+                    <div class="route-card overflow-hidden rounded-lg">
+                        <div class="relative aspect-[4/3] overflow-hidden rounded-lg bg-secondary-100 dark:bg-secondary-700">
+                            <img 
+                                src="./image12.jpg" 
+                                alt="梅林山郊野径图片12" 
+                                class="w-full h-full object-cover cursor-pointer"
+                            >
+                        </div>
+                        <p class="mt-2 text-sm text-secondary-500 dark:text-secondary-400">休息观景点</p>
+                    </div>
+                    
+                    <!-- 图片13 -->
+                    <div class="route-card overflow-hidden rounded-lg">
+                        <div class="relative aspect-[4/3] overflow-hidden rounded-lg bg-secondary-100 dark:bg-secondary-700">
+                            <img 
+                                src="./image13.jpg" 
+                                alt="梅林山郊野径图片13" 
+                                class="w-full h-full object-cover cursor-pointer"
+                            >
+                        </div>
+                        <p class="mt-2 text-sm text-secondary-500 dark:text-secondary-400">山顶风景</p>
+                    </div>
+                    
+                    <!-- 图片14 -->
+                    <div class="route-card overflow-hidden rounded-lg">
+                        <div class="relative aspect-[4/3] overflow-hidden rounded-lg bg-secondary-100 dark:bg-secondary-700">
+                            <img 
+                                src="./image14.jpg" 
+                                alt="梅林山郊野径图片14" 
+                                class="w-full h-full object-cover cursor-pointer"
+                            >
+                        </div>
+                        <p class="mt-2 text-sm text-secondary-500 dark:text-secondary-400">指示路标</p>
+                    </div>
+                    
+                    <!-- 图片15 -->
+                    <div class="route-card overflow-hidden rounded-lg">
+                        <div class="relative aspect-[4/3] overflow-hidden rounded-lg bg-secondary-100 dark:bg-secondary-700">
+                            <img 
+                                src="./image15.jpg" 
+                                alt="梅林山郊野径图片15" 
+                                class="w-full h-full object-cover cursor-pointer"
+                            >
+                        </div>
+                        <p class="mt-2 text-sm text-secondary-500 dark:text-secondary-400">森林步道</p>
+                    </div>
+                    
+                    <!-- 图片16 -->
+                    <div class="route-card overflow-hidden rounded-lg">
+                        <div class="relative aspect-[4/3] overflow-hidden rounded-lg bg-secondary-100 dark:bg-secondary-700">
+                            <img 
+                                src="./image16.jpg" 
+                                alt="梅林山郊野径图片16" 
+                                class="w-full h-full object-cover cursor-pointer"
+                            >
+                        </div>
+                        <p class="mt-2 text-sm text-secondary-500 dark:text-secondary-400">梅林文体中心</p>
+                    </div>
+                    
+                    <!-- 图片17 -->
+                    <div class="route-card overflow-hidden rounded-lg">
+                        <div class="relative aspect-[4/3] overflow-hidden rounded-lg bg-secondary-100 dark:bg-secondary-700">
+                            <img 
+                                src="./image17.jpg" 
+                                alt="梅林山郊野径图片17" 
+                                class="w-full h-full object-cover cursor-pointer"
+                            >
+                        </div>
+                        <p class="mt-2 text-sm text-secondary-500 dark:text-secondary-400">终点全景</p>
+                    </div>
+                </div>
+                
+                <!-- 图片查看提示 -->
+                <div class="mt-6 p-4 bg-secondary-50 dark:bg-secondary-900/50 rounded-lg">
+                    <div class="flex items-start">
+                        <i class="fas fa-info-circle text-primary-500 mt-1 mr-3"></i>
+                        <p class="text-secondary-600 dark:text-secondary-400">点击图片可查看大图。建议在出发前保存路线图，以便在没有网络的地方参考。</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 交通部分 -->
+        <section id="transportation" class="mb-16 fade-in">
+            <div class="flex items-center mb-6">
+                <i class="fas fa-bus text-primary-600 dark:text-primary-400 text-2xl mr-3"></i>
+                <h2 class="text-2xl sm:text-3xl font-bold">交通指南</h2>
+            </div>
+            <div class="bg-white dark:bg-secondary-800 rounded-xl p-6 shadow-sm">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <div class="flex items-start mb-4">
+                            <div class="bg-primary-100 dark:bg-primary-900/30 p-2 rounded-lg mr-4">
+                                <i class="fas fa-subway text-primary-600 dark:text-primary-400 text-xl"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-lg font-semibold mb-2">地铁</h3>
+                                <p class="text-secondary-600 dark:text-secondary-400">4号线 上梅林b出口，导航深燃大厦，大概三四百米到达梅林山公园入口</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="flex items-start mb-4">
+                            <div class="bg-primary-100 dark:bg-primary-900/30 p-2 rounded-lg mr-4">
+                                <i class="fas fa-taxi text-primary-600 dark:text-primary-400 text-xl"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-lg font-semibold mb-2">出租车</h3>
+                                <p class="text-secondary-600 dark:text-secondary-400">终点：深燃大厦</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-4 p-4 bg-secondary-50 dark:bg-secondary-900/50 rounded-lg">
+                    <div class="flex items-start">
+                        <i class="fas fa-exclamation-circle text-amber-500 mt-1 mr-3"></i>
+                        <p class="text-secondary-600 dark:text-secondary-400">上下不同地点，自驾不方便</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 装备与贴士 -->
+        <section id="tips" class="mb-16 fade-in">
+            <div class="flex items-center mb-6">
+                <i class="fas fa-lightbulb text-primary-600 dark:text-primary-400 text-2xl mr-3"></i>
+                <h2 class="text-2xl sm:text-3xl font-bold">装备与贴士</h2>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- 装备 -->
+                <div class="bg-white dark:bg-secondary-800 rounded-xl p-6 shadow-sm">
+                    <h3 class="text-xl font-semibold mb-4 flex items-center">
+                        <i class="fas fa-backpack text-primary-500 dark:text-primary-400 mr-2"></i>
+                        徒步装备
+                    </h3>
+                    <ul class="space-y-3">
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-accent-500 mr-3"></i>
+                            <span class="text-secondary-700 dark:text-secondary-300">徒步鞋（防滑）</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-accent-500 mr-3"></i>
+                            <span class="text-secondary-700 dark:text-secondary-300">登山杖</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-accent-500 mr-3"></i>
+                            <span class="text-secondary-700 dark:text-secondary-300">速干衣</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <!-- 贴士 -->
+                <div class="bg-white dark:bg-secondary-800 rounded-xl p-6 shadow-sm">
+                    <h3 class="text-xl font-semibold mb-4 flex items-center">
+                        <i class="fas fa-info-circle text-primary-500 dark:text-primary-400 mr-2"></i>
+                        重要贴士
+                    </h3>
+                    <ul class="space-y-3">
+                        <li class="flex items-start">
+                            <i class="fas fa-exclamation-triangle text-amber-500 mt-1 mr-3"></i>
+                            <span class="text-secondary-700 dark:text-secondary-300">记得带足水和食物，只有流动补给点</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-exclamation-triangle text-amber-500 mt-1 mr-3"></i>
+                            <span class="text-secondary-700 dark:text-secondary-300">驱蚊水必备，蚊子超级多！</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- 小红书链接 -->
+        <section class="mb-16 fade-in">
+            <div class="bg-gradient-to-r from-pink-500 to-rose-500 rounded-xl p-6 text-white">
+                <div class="flex flex-col md:flex-row items-center justify-between">
+                    <div class="mb-4 md:mb-0">
+                        <h3 class="text-xl font-bold mb-2">想了解更多详情？</h3>
+                        <p>查看小红书原文获取更多信息和实时更新</p>
+                    </div>
+                    <a href="https://www.xiaohongshu.com/discovery/item/66eed9e50000000027001927" target="_blank" class="btn bg-white text-rose-500 hover:bg-rose-50 px-6 py-3 rounded-lg font-semibold flex items-center">
+                        <i class="fas fa-external-link-alt mr-2"></i>
+                        查看小红书原文
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- 页脚 -->
+    <footer class="bg-secondary-100 dark:bg-secondary-800 py-12">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-6 md:mb-0">
+                    <div class="flex items-center">
+                        <i class="fas fa-mountain text-primary-600 dark:text-primary-400 text-2xl mr-2"></i>
+                        <span class="font-bold text-xl">梅林山郊野径</span>
+                    </div>
+                    <p class="text-secondary-600 dark:text-secondary-400 mt-2">深圳户外徒步路线指南</p>
+                </div>
+                <div class="flex flex-col items-center md:items-end">
+                    <div class="flex space-x-4 mb-4">
+                        <a href="https://x.com/qingyuano" target="_blank" class="text-secondary-600 dark:text-secondary-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
+                            <i class="fab fa-twitter text-xl"></i>
+                        </a>
+                    </div>
+                    <p class="text-secondary-500 dark:text-secondary-500">
+                        <span class="font-semibold">作者：</span>
+                        <span>qingyuano</span>
+                    </p>
+                    <p class="text-secondary-500 dark:text-secondary-500 mt-1">
+                        © <span id="current-year">2023</span> 版权所有
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        // 设置当前年份
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+    </script>
+
+    <!-- 图片查看器脚本 -->
+    <script>
+        // 图片查看器功能
+        document.addEventListener("DOMContentLoaded", function() {
+            const images = document.querySelectorAll(".route-card img");
+            
+            images.forEach(img => {
+                img.addEventListener("click", function() {
+                    const viewer = document.createElement("div");
+                    viewer.className = "fixed inset-0 z-50 flex items-center justify-center bg-black/90";
+                    
+                    const imgClone = document.createElement("img");
+                    imgClone.src = this.src;
+                    imgClone.className = "max-w-[90%] max-h-[90vh] object-contain";
+                    
+                    const closeBtn = document.createElement("button");
+                    closeBtn.className = "absolute top-4 right-4 text-white text-2xl";
+                    closeBtn.innerHTML = '<i class="fas fa-times"></i>';
+                    closeBtn.addEventListener("click", () => viewer.remove());
+                    
+                    viewer.appendChild(imgClone);
+                    viewer.appendChild(closeBtn);
+                    document.body.appendChild(viewer);
+                    
+                    viewer.addEventListener("click", function(e) {
+                        if (e.target === viewer) {
+                            viewer.remove();
+                        }
+                    });
+                });
+            });
+        });
+    </script>
+</body>
+</html>
