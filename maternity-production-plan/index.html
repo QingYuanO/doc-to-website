@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>孕妇生产计划</title>
+    <!-- TailwindCSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            50: '#fdf2f8',
+                            100: '#fce7f3',
+                            200: '#fbcfe8',
+                            300: '#f9a8d4',
+                            400: '#f472b6',
+                            500: '#ec4899',
+                            600: '#db2777',
+                            700: '#be185d',
+                            800: '#9d174d',
+                            900: '#831843',
+                        },
+                        accent: {
+                            50: '#fff1f2',
+                            100: '#ffe4e6',
+                            200: '#fecdd3',
+                            300: '#fda4af',
+                            400: '#fb7185',
+                            500: '#f43f5e',
+                            600: '#e11d48',
+                            700: '#be123c',
+                            800: '#9f1239',
+                            900: '#881337',
+                        },
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                },
+            },
+        }
+    </script>
+    <style>
+        .fade-in {
+            animation: fadeIn 0.8s ease-in-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .hover-card {
+            transition: all 0.3s ease;
+        }
+        
+        .hover-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px -5px rgba(236, 72, 153, 0.1), 0 10px 10px -5px rgba(236, 72, 153, 0.04);
+        }
+
+        .week-details {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-out, opacity 0.3s ease-out, transform 0.3s ease-out;
+            opacity: 0;
+            transform: translateY(-10px);
+        }
+
+        .week-details.show {
+            max-height: 500px;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .toggle-details i {
+            transition: transform 0.3s ease;
+        }
+
+        .toggle-details.active i {
+            transform: rotate(180deg);
+        }
+    </style>
+</head>
+<body class="bg-pink-50">
+    <!-- 导航栏 -->
+    <header class="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-pink-100">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center">
+                    <a href="#" class="flex items-center">
+                        <i class="fas fa-baby-carriage text-primary-500 text-2xl mr-2"></i>
+                        <span class="font-bold text-xl text-gray-900">孕妇生产计划</span>
+                    </a>
+                </div>
+                <nav class="hidden md:flex space-x-8">
+                    <a href="#pregnancy-weeks" class="text-gray-600 hover:text-primary-500 transition-colors">孕周计算</a>
+                    <a href="#checkups" class="text-gray-600 hover:text-primary-500 transition-colors">检查项目</a>
+                    <a href="#precautions" class="text-gray-600 hover:text-primary-500 transition-colors">注意事项</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <!-- 英雄区域 -->
+        <section class="text-center py-12 mb-12 fade-in">
+            <h1 class="text-4xl sm:text-5xl font-bold text-gray-900 mb-4">
+                <span class="text-primary-500">幸福时刻</span>
+                <br>
+                准备迎接新生命
+            </h1>
+            <p class="text-lg text-gray-600 max-w-2xl mx-auto">
+                记录每一个重要时刻，细心准备每一个细节
+            </p>
+        </section>
+
+        <!-- 孕周计算 -->
+        <section id="pregnancy-weeks" class="mb-16 fade-in">
+            <div class="bg-white rounded-2xl shadow-sm p-8">
+                <h2 class="text-2xl font-bold text-gray-900 mb-6 flex items-center">
+                    <i class="fas fa-calendar-alt text-primary-500 mr-3"></i>
+                    孕周计算
+                </h2>
+                <div class="space-y-6">
+                    <div class="bg-pink-50 rounded-lg p-4">
+                        <p class="text-gray-700">预产期计算起点：<span class="font-semibold text-primary-600">2025年1月29日</span></p>
+                    </div>
+                    <div id="pregnancy-timeline" class="space-y-4">
+                        <!-- JavaScript 将在这里动态生成孕周时间表 -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 检查项目 -->
+        <section id="checkups" class="mb-16 fade-in">
+            <div class="bg-white rounded-2xl shadow-sm p-8">
+                <h2 class="text-2xl font-bold text-gray-900 mb-6 flex items-center">
+                    <i class="fas fa-stethoscope text-primary-500 mr-3"></i>
+                    检查项目
+                </h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- 第一孕期 -->
+                    <div class="hover-card bg-pink-50 rounded-xl p-6">
+                        <h3 class="text-xl font-semibold text-primary-600 mb-4">第一孕期 (1-13周)</h3>
+                        <ul class="space-y-3">
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-primary-500 mt-1 mr-2"></i>
+                                <span class="text-gray-700">建档、初次产检</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-primary-500 mt-1 mr-2"></i>
+                                <span class="text-gray-700">血常规、尿常规检查</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-primary-500 mt-1 mr-2"></i>
+                                <span class="text-gray-700">NT检查（11-13周）</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- 第二孕期 -->
+                    <div class="hover-card bg-pink-50 rounded-xl p-6">
+                        <h3 class="text-xl font-semibold text-primary-600 mb-4">第二孕期 (14-27周)</h3>
+                        <ul class="space-y-3">
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-primary-500 mt-1 mr-2"></i>
+                                <span class="text-gray-700">唐氏筛查（16-20周）</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-primary-500 mt-1 mr-2"></i>
+                                <span class="text-gray-700">大排畸超声（20-24周）</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-primary-500 mt-1 mr-2"></i>
+                                <span class="text-gray-700">糖耐量检查（24-28周）</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- 第三孕期 -->
+                    <div class="hover-card bg-pink-50 rounded-xl p-6">
+                        <h3 class="text-xl font-semibold text-primary-600 mb-4">第三孕期 (28-40周)</h3>
+                        <ul class="space-y-3">
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-primary-500 mt-1 mr-2"></i>
+                                <span class="text-gray-700">胎心监护</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-primary-500 mt-1 mr-2"></i>
+                                <span class="text-gray-700">生产准备课程</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-primary-500 mt-1 mr-2"></i>
+                                <span class="text-gray-700">入院评估（37周后）</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 注意事项 -->
+        <section id="precautions" class="mb-16 fade-in">
+            <div class="bg-white rounded-2xl shadow-sm p-8">
+                <h2 class="text-2xl font-bold text-gray-900 mb-6 flex items-center">
+                    <i class="fas fa-exclamation-circle text-primary-500 mr-3"></i>
+                    注意事项
+                </h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <!-- 饮食建议 -->
+                    <div class="hover-card bg-pink-50 rounded-xl p-6">
+                        <h3 class="text-xl font-semibold text-primary-600 mb-4 flex items-center">
+                            <i class="fas fa-utensils mr-2"></i>
+                            饮食建议
+                        </h3>
+                        <ul class="space-y-3">
+                            <li class="flex items-start">
+                                <i class="fas fa-times text-accent-500 mt-1 mr-2"></i>
+                                <span class="text-gray-700">避免生食、半熟食物</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-times text-accent-500 mt-1 mr-2"></i>
+                                <span class="text-gray-700">避免含咖啡因饮品</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-primary-500 mt-1 mr-2"></i>
+                                <span class="text-gray-700">多吃新鲜蔬果</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- 运动建议 -->
+                    <div class="hover-card bg-pink-50 rounded-xl p-6">
+                        <h3 class="text-xl font-semibold text-primary-600 mb-4 flex items-center">
+                            <i class="fas fa-walking mr-2"></i>
+                            运动建议
+                        </h3>
+                        <ul class="space-y-3">
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-primary-500 mt-1 mr-2"></i>
+                                <span class="text-gray-700">适度散步</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-primary-500 mt-1 mr-2"></i>
+                                <span class="text-gray-700">孕期瑜伽</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-times text-accent-500 mt-1 mr-2"></i>
+                                <span class="text-gray-700">避免剧烈运动</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- 生活作息 -->
+                    <div class="hover-card bg-pink-50 rounded-xl p-6">
+                        <h3 class="text-xl font-semibold text-primary-600 mb-4 flex items-center">
+                            <i class="fas fa-home mr-2"></i>
+                            生活作息
+                        </h3>
+                        <ul class="space-y-3">
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-primary-500 mt-1 mr-2"></i>
+                                <span class="text-gray-700">保持规律作息</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-primary-500 mt-1 mr-2"></i>
+                                <span class="text-gray-700">充足睡眠</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-times text-accent-500 mt-1 mr-2"></i>
+                                <span class="text-gray-700">避免熬夜</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- 工作注意 -->
+                    <div class="hover-card bg-pink-50 rounded-xl p-6">
+                        <h3 class="text-xl font-semibold text-primary-600 mb-4 flex items-center">
+                            <i class="fas fa-briefcase mr-2"></i>
+                            工作注意
+                        </h3>
+                        <ul class="space-y-3">
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-primary-500 mt-1 mr-2"></i>
+                                <span class="text-gray-700">适当休息</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-times text-accent-500 mt-1 mr-2"></i>
+                                <span class="text-gray-700">避免久坐</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-times text-accent-500 mt-1 mr-2"></i>
+                                <span class="text-gray-700">避免接触有害物质</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- 页脚 -->
+    <footer class="bg-white border-t border-pink-100 py-8">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center text-gray-600">
+                <p class="mb-2">祝愿所有准妈妈顺利生产，宝宝健康成长</p>
+                <p>© <span id="current-year">2024</span> 孕妇生产计划 by qingyuano</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        // 设置当前年份
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+
+        // 定义每周的详细信息
+        const weeklyDetails = {
+            1: {
+                title: "第1周",
+                checkups: ["在家用早孕试纸测试", "医院抽血、尿检确认怀孕", "建立孕期档案"],
+                notes: ["培养良好饮食习惯", "调整作息，每晚睡足8/9小时", "禁止喝酒、抽烟、吃生食", "避免吃药和接触有害物质", "避免浓茶、咖啡、碳酸饮料", "开始服用叶酸", "避免接触猫砂和生肉"],
+                nutrition: ["叶酸（每天400-800微克，防止胎儿神经管畸形）", "维生素B6（缓解孕吐）", "铁（预防贫血）"],
+                foods: ["菠菜", "芦笋", "西蓝花", "玉米", "花椰菜", "胡萝卜", "蘑菇", "油菜", "猪肝", "鸡肉", "黄豆", "豆制品", "苹果", "橙子", "樱桃", "全谷物", "瘦肉"],
+                bodyChanges: ["月经停止", "身体变化不明显", "可能出现类似感冒的症状", "乳房轻微胀痛", "疲劳感增加"]
+            },
+            4: {
+                title: "第4周",
+                checkups: ["在家用早孕试纸测试", "医院抽血、尿检确认怀孕", "测量基础体温", "血压监测"],
+                notes: ["保持规律作息", "避免剧烈运动", "远离二手烟", "避免染发和烫发", "保持心情愉悦", "适当运动散步"],
+                nutrition: ["叶酸", "维生素B族", "铁质", "钙质"],
+                foods: ["富含叶酸的深绿色蔬菜", "全谷物", "瘦肉", "鱼类", "豆制品", "新鲜水果", "坚果"],
+                bodyChanges: ["轻微恶心", "嗜睡", "情绪波动", "乳房胀痛", "尿频增加"]
+            },
+            6: {
+                title: "第6周",
+                checkups: ["抽血检查HCG和孕酮翻倍情况", "早孕B超", "确认宫内孕", "检查胎心、胎芽", "血压监测"],
+                notes: ["孕早期选择清淡易消化的食物", "少量多餐缓解孕吐", "保证充足睡眠", "避免弯腰提重物", "避免泡温泉和桑拿", "禁止剧烈运动", "保持心情愉悦"],
+                nutrition: ["叶酸", "维生素B6（缓解孕吐）", "维生素C", "铁质", "钙质"],
+                foods: ["芹菜", "菠菜", "青椒", "黄瓜", "番茄", "卷心菜", "西蓝花", "猕猴桃", "橙子", "鲜枣", "草莓", "豌豆", "红枣", "核桃", "红薯", "鸡肉", "鱼", "动物肝脏", "鸡蛋", "酸奶"],
+                bodyChanges: ["明显恶心呕吐", "嗜睡", "食欲改变", "乳房明显胀痛", "对气味敏感", "尿频", "情绪波动大"]
+            },
+            8: {
+                title: "第8周",
+                checkups: ["早孕B超复查", "血压监测", "体重监测", "尿常规检查"],
+                notes: ["注意补充水分", "避免剧烈运动", "保持心情愉悦", "适当户外散步", "避免接触化学品", "远离感冒患者"],
+                nutrition: ["叶酸", "维生素B族", "维生素C", "铁质", "钙质"],
+                foods: ["清淡易消化的食物", "温热食物", "干姜", "柠檬", "生姜茶", "咸饼干", "全麦面包"],
+                bodyChanges: ["孕吐加重", "疲劳感明显", "胃口改变", "乳房继续胀痛", "腹部轻微隆起"]
+            },
+            10: {
+                title: "第10周",
+                checkups: ["胎儿颈项透明层检查（NT）准备", "血压监测", "体重监测"],
+                notes: ["准备NT检查预约", "保持规律作息", "适量运动", "避免感冒", "注意保暖"],
+                nutrition: ["叶酸", "铁质", "钙质", "维生素D", "DHA"],
+                foods: ["高蛋白食物", "富含铁质的食物", "新鲜蔬果", "全谷物", "坚果"],
+                bodyChanges: ["孕吐可能开始减轻", "精力逐渐恢复", "情绪趋于稳定", "体重开始增加"]
+            },
+            12: {
+                title: "第12周",
+                checkups: ["建档", "血常规", "尿常规", "肝肾功能", "传染病筛查", "心电图", "血压监测", "体重身高测量", "胎心率检查", "NT检查", "唐氏综合征筛查"],
+                notes: ["准备好医保卡、身份证、早孕B超单、电子准生证", "妊娠反应开始减轻", "可以适当护肤和化妆，但要避开维A酸等成分", "开始准备孕妇装", "保持适度运动"],
+                nutrition: ["叶酸", "维生素A", "维生素D", "钙质", "铁质", "DHA", "蛋白质"],
+                foods: ["绿叶菜", "深海鱼", "坚果", "大豆", "南瓜", "甜瓜", "全麦食物", "鸡蛋", "鱼类", "海产品", "菠菜", "胡萝卜", "油菜", "牛奶", "酸奶"],
+                bodyChanges: ["孕吐症状减轻", "精力逐渐恢复", "胃口改善", "体重稳定增加", "腹部开始隆起", "皮肤状态改善"]
+            },
+            16: {
+                title: "第16周",
+                checkups: ["唐氏筛查", "抽血检查染色体异常"],
+                notes: ["可以考虑直接做无创DNA检查", "进入孕中期，孕反逐渐消失", "多吃蛋白质、维生素丰富的食物", "换上宽松的孕妇装"],
+                nutrition: ["锌（促进胎儿心脏、大脑等器官的发育）"],
+                foods: ["牛肉", "猪肉", "鱼类", "猪肝", "蛋黄", "口蘑", "芝麻"],
+                bodyChanges: ["腹部轻微隆起", "肚子长毛", "分泌物增多", "乳晕颜色变深", "便秘", "鼻塞"]
+            },
+            20: {
+                title: "第20周",
+                checkups: ["四维检查预约"],
+                notes: ["定期记录体重", "每天数胎动", "可以开始胎教", "注意涂抹妊娠油防止妊娠纹"],
+                nutrition: ["钙", "维生素D"],
+                foods: ["奶制品", "豆制品", "鲫鱼", "虾", "海带", "紫菜", "羊肉", "猪脑", "鸡蛋", "鸡肉"],
+                bodyChanges: ["腹部明显隆起", "牙龈出血", "能感受到胎动", "像小鱼吐泡泡的感觉"]
+            },
+            24: {
+                title: "第24周",
+                checkups: ["四维检查", "B超检查胎儿发育情况", "糖耐量检查"],
+                notes: ["适量运动", "饭后散步", "控制体重和血糖", "提前订好月嫂/月子中心"],
+                nutrition: ["铁（防止贫血）"],
+                foods: ["动物肝脏", "红肉", "鸡蛋", "菠菜", "紫菜"],
+                bodyChanges: ["尿频明显增加", "体重增长快", "下肢水肿", "腰酸背痛", "假性宫缩"]
+            },
+            28: {
+                title: "第28周",
+                checkups: ["乙肝抗原检查", "血常规", "尿常规", "肝功能复查"],
+                notes: ["控制进食量", "少吃多餐", "睡前喝杯热牛奶", "给宝宝取名字"],
+                nutrition: ["DHA", "卵磷脂"],
+                foods: ["海带", "木耳", "坚果类", "核桃", "松子", "花生", "芝麻", "深海鱼"],
+                bodyChanges: ["腹部变得更大", "腹部感到变紧变硬", "出现妊娠纹", "失眠", "胸闷气短"]
+            },
+            32: {
+                title: "第32周",
+                checkups: ["尿常规", "测宫高", "测腹围", "胎心监护"],
+                notes: ["准备待产包", "拍摄孕妇照", "每天按时数胎动", "避免长时间站立、久坐"],
+                nutrition: ["碳水化合物"],
+                foods: ["大米", "燕麦", "玉米", "红薯", "胡萝卜"],
+                bodyChanges: ["腰痛加重", "腿抽筋", "烧心", "身体疲乏", "气喘", "尿频起夜多"]
+            },
+            34: {
+                title: "第34周",
+                checkups: ["胎心监护", "B族链球菌检查"],
+                notes: ["注意宫缩情况", "学习拉玛泽呼吸法", "检查待产包"],
+                nutrition: ["膳食纤维"],
+                foods: ["芹菜", "油菜", "豌豆", "豆芽", "菜花", "燕麦", "玉米", "苹果", "梨"],
+                bodyChanges: ["胎儿下降到骨盆", "胎动减弱", "耻骨痛", "假性宫缩变多"]
+            },
+            36: {
+                title: "第36周",
+                checkups: ["每周产检", "胎心监护", "宫口检查"],
+                notes: ["准备好各种证件", "避免长时间坐着", "注意安全防止滑倒"],
+                nutrition: ["膳食纤维"],
+                foods: ["易消化食物", "补铁食物", "适量水果"],
+                bodyChanges: ["胎头下降", "频繁排尿", "假性宫缩增多"]
+            },
+            37: {
+                title: "第37周",
+                checkups: ["胎心监护", "确认胎位", "预估胎儿体重"],
+                notes: ["随时待产", "准备好待产包", "注意临产征兆"],
+                nutrition: ["维生素B1"],
+                foods: ["猪肉", "鸡肝", "花生", "大豆", "黑米", "西红柿", "葡萄", "橘子"],
+                bodyChanges: ["腹部沉重", "下肢发麻", "频繁尿频", "水肿严重"]
+            },
+            38: {
+                title: "第38周",
+                checkups: ["胎心监护", "确认胎位"],
+                notes: ["待产准备", "关注宫缩", "准备助产食物"],
+                nutrition: ["维生素B1"],
+                foods: ["易消化食物", "小面包", "小蛋糕", "饼干"],
+                bodyChanges: ["宫缩增多", "可能见红", "破水"]
+            },
+            39: {
+                title: "第39周",
+                checkups: ["胎心监护", "宫口检查", "胎位再确认"],
+                notes: ["注意见红", "关注宫缩", "保持镇定"],
+                nutrition: ["维生素B1"],
+                foods: ["易消化食物", "补充能量食物"],
+                bodyChanges: ["宫缩频繁", "可能见红", "破水"]
+            },
+            40: {
+                title: "第40周",
+                checkups: ["入院待产", "胎心监护", "宫口检查"],
+                notes: ["如果过了预产期可以多做助产运动", "注意临产征兆：见红、破水、规律宫缩", "当宫缩规律达到'511'要及时去医院"],
+                nutrition: ["维生素B1"],
+                foods: ["易消化食物", "补充能量食物"],
+                bodyChanges: ["宫缩增强", "见红", "破水可能"]
+            }
+        };
+
+        // 计算孕周时间表
+        function generatePregnancyWeeks() {
+            const startDate = new Date('2025-01-29');
+            const container = document.getElementById('pregnancy-timeline');
+            const weeks = 40;
+            const today = new Date();
+            
+            // 计算当前孕周
+            const currentWeek = Math.floor((today - startDate) / (7 * 24 * 60 * 60 * 1000)) + 1;
+
+            // 定义不同孕期的粉色系颜色
+            const trimesterColors = {
+                first: {
+                    bg: 'bg-pink-50',
+                    border: 'border-pink-200',
+                    text: 'text-pink-600',
+                    badge: 'bg-pink-100 text-pink-700'
+                },
+                second: {
+                    bg: 'bg-pink-100',
+                    border: 'border-pink-300',
+                    text: 'text-pink-700',
+                    badge: 'bg-pink-200 text-pink-800'
+                },
+                third: {
+                    bg: 'bg-pink-200',
+                    border: 'border-pink-400',
+                    text: 'text-pink-800',
+                    badge: 'bg-pink-300 text-pink-900'
+                }
+            };
+
+            for (let week = 1; week <= weeks; week++) {
+                const weekStart = new Date(startDate);
+                weekStart.setDate(startDate.getDate() + (week - 1) * 7);
+                const weekEnd = new Date(weekStart);
+                weekEnd.setDate(weekStart.getDate() + 6);
+
+                // 确定当前周属于哪个孕期
+                const trimester = week <= 13 ? 'first' : week <= 27 ? 'second' : 'third';
+                const colors = trimesterColors[trimester];
+                
+                const weekElement = document.createElement('div');
+                const isCurrentWeek = week === currentWeek;
+                const weekDetails = weeklyDetails[week] || { checkups: [], notes: [] };
+                
+                // 根据孕期和是否是当前周设置样式
+                weekElement.className = `hover-card rounded-lg p-4 border transition-all duration-300 
+                    ${isCurrentWeek ? 'bg-primary-100 border-primary-300 shadow-md' : `${colors.bg} ${colors.border} hover:shadow-sm`}`;
+                
+                weekElement.innerHTML = `
+                    <div class="flex flex-col ">
+                        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-2 sm:space-y-0">
+                            <div class="flex flex-wrap items-center gap-2">
+                                <span class="inline-flex items-center ${isCurrentWeek ? 'text-primary-600' : colors.text} font-bold whitespace-nowrap">第${week}周</span>
+                                <span class="text-gray-600 text-sm sm:text-base whitespace-nowrap">${weekStart.toLocaleDateString()} - ${weekEnd.toLocaleDateString()}</span>
+                            </div>
+                            <div class="flex flex-wrap items-center gap-2">
+                                <span class="px-2 py-1 text-xs rounded-full whitespace-nowrap ${colors.badge}">
+                                    ${getTrimesterText(week)}
+                                </span>
+                                ${isCurrentWeek ? '<span class="px-2 py-1 text-xs bg-primary-500 text-white rounded-full whitespace-nowrap">当前</span>' : ''}
+                                ${weekDetails.checkups.length > 0 || weekDetails.notes.length > 0 || weekDetails.nutrition || weekDetails.foods || weekDetails.bodyChanges ? `
+                                    <button class="toggle-details w-5 h-5 flex items-center justify-center text-sm text-primary-600 hover:text-primary-700 transition-all duration-200">
+                                        <i class="fas fa-chevron-down transition-transform duration-200"></i>
+                                    </button>
+                                ` : ''}
+                            </div>
+                        </div>
+                        ${weekDetails.checkups.length > 0 || weekDetails.notes.length > 0 || weekDetails.nutrition || weekDetails.foods || weekDetails.bodyChanges ? `
+                            <div class="week-details">
+                                <div class="mt-2 pt-2 border-t border-pink-100 space-y-2">
+                                    ${weekDetails.checkups.length > 0 ? `
+                                        <div class="text-sm">
+                                            <span class="font-semibold text-primary-600">产检项目：</span>
+                                            <span class="text-gray-600">${weekDetails.checkups.join('、')}</span>
+                                        </div>
+                                    ` : ''}
+                                    ${weekDetails.nutrition ? `
+                                        <div class="text-sm">
+                                            <span class="font-semibold text-primary-600">营养补充：</span>
+                                            <span class="text-gray-600">${weekDetails.nutrition.join('、')}</span>
+                                        </div>
+                                    ` : ''}
+                                    ${weekDetails.foods ? `
+                                        <div class="text-sm">
+                                            <span class="font-semibold text-primary-600">推荐食物：</span>
+                                            <span class="text-gray-600">${weekDetails.foods.join('、')}</span>
+                                        </div>
+                                    ` : ''}
+                                    ${weekDetails.bodyChanges ? `
+                                        <div class="text-sm">
+                                            <span class="font-semibold text-primary-600">身体变化：</span>
+                                            <span class="text-gray-600">${weekDetails.bodyChanges.join('、')}</span>
+                                        </div>
+                                    ` : ''}
+                                    ${weekDetails.notes.length > 0 ? `
+                                        <div class="text-sm">
+                                            <span class="font-semibold text-primary-600">注意事项：</span>
+                                            <span class="text-gray-600">${weekDetails.notes.join('、')}</span>
+                                        </div>
+                                    ` : ''}
+                                </div>
+                            </div>
+                        ` : ''}
+                    </div>
+                `;
+
+                // 添加展开/收起功能
+                const toggleButton = weekElement.querySelector('.toggle-details');
+                const detailsSection = weekElement.querySelector('.week-details');
+                if (toggleButton && detailsSection) {
+                    toggleButton.addEventListener('click', () => {
+                        const isHidden = !detailsSection.classList.contains('show');
+                        detailsSection.classList.toggle('show');
+                        toggleButton.classList.toggle('active');
+                    });
+                }
+
+                container.appendChild(weekElement);
+            }
+
+            // 如果当前孕周存在且在范围内，滚动到当前孕周
+            if (currentWeek > 0 && currentWeek <= weeks) {
+                const weekElements = container.children;
+                if (weekElements[currentWeek - 1]) {
+                    setTimeout(() => {
+                        weekElements[currentWeek - 1].scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }, 500);
+                }
+            }
+        }
+
+        // 获取孕期文字
+        function getTrimesterText(week) {
+            if (week <= 13) return '第一孕期';
+            if (week <= 27) return '第二孕期';
+            return '第三孕期';
+        }
+
+        // 页面加载完成后生成孕周时间表
+        document.addEventListener('DOMContentLoaded', generatePregnancyWeeks);
+    </script>
+</body>
+</html> 
