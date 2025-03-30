@@ -132,7 +132,7 @@
                 </h2>
                 <div class="space-y-6">
                     <div class="bg-pink-50 rounded-lg p-4">
-                        <p class="text-gray-700">预产期计算起点：<span class="font-semibold text-primary-600">2025年1月29日</span></p>
+                        <p class="text-gray-700">预产期计算起点：<span class="font-semibold text-primary-600">2025年2月1日</span></p>
                     </div>
                     <div id="pregnancy-timeline" class="space-y-4">
                         <!-- JavaScript 将在这里动态生成孕周时间表 -->
@@ -466,7 +466,7 @@
 
         // 计算孕周时间表
         function generatePregnancyWeeks() {
-            const startDate = new Date('2025-01-29');
+            const startDate = new Date('2025-02-01');
             const container = document.getElementById('pregnancy-timeline');
             const weeks = 40;
             const today = new Date();
@@ -502,6 +502,14 @@
                 const weekEnd = new Date(weekStart);
                 weekEnd.setDate(weekStart.getDate() + 6);
 
+                // 格式化日期，确保显示正确的月份和日期
+                const formatDate = (date) => {
+                    const year = date.getFullYear();
+                    const month = date.getMonth() + 1;
+                    const day = date.getDate();
+                    return `${year}年${month}月${day}日`;
+                };
+
                 // 确定当前周属于哪个孕期
                 const trimester = week <= 13 ? 'first' : week <= 27 ? 'second' : 'third';
                 const colors = trimesterColors[trimester];
@@ -515,11 +523,11 @@
                     ${isCurrentWeek ? 'bg-primary-100 border-primary-300 shadow-md' : `${colors.bg} ${colors.border} hover:shadow-sm`}`;
                 
                 weekElement.innerHTML = `
-                    <div class="flex flex-col ">
+                    <div class="flex flex-col">
                         <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-2 sm:space-y-0">
                             <div class="flex flex-wrap items-center gap-2">
                                 <span class="inline-flex items-center ${isCurrentWeek ? 'text-primary-600' : colors.text} font-bold whitespace-nowrap">第${week}周</span>
-                                <span class="text-gray-600 text-sm sm:text-base whitespace-nowrap">${weekStart.toLocaleDateString()} - ${weekEnd.toLocaleDateString()}</span>
+                                <span class="text-gray-600 text-sm sm:text-base whitespace-nowrap">${formatDate(weekStart)} - ${formatDate(weekEnd)}</span>
                             </div>
                             <div class="flex flex-wrap items-center gap-2">
                                 <span class="px-2 py-1 text-xs rounded-full whitespace-nowrap ${colors.badge}">
