@@ -1,7 +1,7 @@
 ---
 description: 
-globs: .html
-alwaysApply: false
+globs: 
+alwaysApply: true
 ---
 
 将下面提示词中我的名字和推特链接换成你

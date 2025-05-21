@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>医院均安</title>
+    <!-- TailwindCSS 3.0+ -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+    <!-- motion.js for 动画 -->
+    <script src="https://cdn.jsdelivr.net/npm/motion@latest/dist/motion.js"></script>
+    <script>
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ['Inter', 'sans-serif'],
+            },
+            colors: {
+              primary: {
+                50: '#f0f9ff',
+                100: '#e0f2fe',
+                200: '#bae6fd',
+                300: '#7dd3fc',
+                400: '#38bdf8',
+                500: '#0ea5e9',
+                600: '#0284c7',
+                700: '#0369a1',
+                800: '#075985',
+                900: '#0c4a6e',
+              },
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      .fade-in {
+        animation: fadeIn 0.8s ease-in-out;
+      }
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      .hover-card {
+        transition: all 0.3s ease;
+      }
+      .hover-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 25px -5px rgba(14, 165, 233, 0.1), 0 10px 10px -5px rgba(14, 165, 233, 0.04);
+      }
+      ::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+      }
+      ::-webkit-scrollbar-track {
+        background: transparent;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #bae6fd;
+        border-radius: 4px;
+      }
+      .dark ::-webkit-scrollbar-thumb {
+        background: #075985;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+      .btn {
+        transition: all 0.2s ease;
+      }
+      .btn:hover {
+        transform: scale(1.05);
+      }
+      .lazy-placeholder {
+        background: linear-gradient(90deg, #f0f9ff 0%, #e0f2fe 50%, #f0f9ff 100%);
+        background-size: 200% 100%;
+        animation: shimmer 1.5s infinite;
+      }
+      @keyframes shimmer {
+        0% {
+          background-position: -200% 0;
+        }
+        100% {
+          background-position: 200% 0;
+        }
+      }
+    </style>
+  </head>
+  <body class="bg-primary-50 text-gray-900 dark:bg-gray-900 dark:text-gray-100 transition-colors duration-300">
+    <!-- 顶部导航 -->
+    <header class="sticky top-0 z-50 bg-white/80 dark:bg-gray-900/80 backdrop-blur-md border-b border-primary-100 dark:border-primary-900">
+      <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between items-center h-16">
+          <div class="flex items-center">
+            <i class="fas fa-hospital-symbol text-primary-600 text-2xl mr-2"></i>
+            <span class="font-bold text-xl">均安医院简介</span>
+          </div>
+          <button id="theme-toggle" class="p-2 rounded-full hover:bg-primary-100 dark:hover:bg-primary-800 focus:outline-none btn">
+            <i class="fas fa-sun text-yellow-500 dark:hidden"></i>
+            <i class="fas fa-moon text-primary-300 hidden dark:block"></i>
+          </button>
+        </div>
+      </div>
+    </header>
+    <main class="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <!-- 英雄区 -->
+      <section class="text-center py-12 mb-12 fade-in">
+        <h1 class="text-4xl sm:text-5xl font-bold text-primary-700 mb-4">佛山市顺德区均安医院</h1>
+        <p class="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+          始建于1958年，位于广东省佛山市顺德区均安镇百安路7号，占地72亩，建筑面积34426平方米，是集医疗、预防、保健、康复、教学于一体的二级甲等综合医院。
+        </p>
+      </section>
+      <!-- 图片展示区 -->
+      <section class="space-y-8 mb-16 fade-in">
+        <div class="hover-card rounded-2xl overflow-hidden shadow bg-white dark:bg-gray-800">
+          <img data-src="./i1.jpg" src="./i1.jpg" alt="医院封面" class="w-full h-96 object-cover rounded-2xl lazy-image" loading="lazy" />
+        </div>
+        <div class="hover-card rounded-2xl overflow-hidden shadow bg-white dark:bg-gray-800">
+          <img data-src="./i3.jpg" src="./i3.jpg" alt="医院俯瞰图" class="w-full h-96 object-cover rounded-2xl lazy-image" loading="lazy" />
+        </div>
+      </section>
+      <!-- 医院介绍 -->
+      <section class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-8 mb-12 fade-in">
+        <div class="flex flex-col md:flex-row items-center md:items-start gap-8">
+          <div class="w-full md:w-1/3 flex-shrink-0 mb-6 md:mb-0">
+            <img data-src="./i2.jpg" src="./i2.jpg" alt="门诊部大楼" class="w-full h-96 rounded-xl shadow hover-card lazy-image" loading="lazy" />
+          </div>
+          <div class="w-full md:w-2/3">
+            <h2 class="text-2xl font-bold text-primary-700 mb-6 flex items-center"><i class="fas fa-info-circle mr-3"></i>医院概况</h2>
+            <ul class="text-lg text-gray-700 dark:text-gray-200 space-y-4">
+              <li><span class="font-semibold">地址：</span>广东省佛山市顺德区均安镇百安路7号</li>
+              <li><span class="font-semibold">始建时间：</span>1958年</li>
+              <li><span class="font-semibold">占地面积：</span>72亩</li>
+              <li><span class="font-semibold">建筑面积：</span>34426平方米</li>
+              <li><span class="font-semibold">医院等级：</span>二级甲等综合医院</li>
+              <li><span class="font-semibold">床位编制：</span>350张</li>
+              <li><span class="font-semibold">医院特色：</span>集医疗、预防、保健、康复、教学于一体</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+      <!-- 科室与设备 -->
+      <section class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-8 mb-12 fade-in">
+        <h2 class="text-2xl font-bold text-primary-700 mb-6 flex items-center"><i class="fas fa-stethoscope mr-3"></i>科室与设备</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div>
+            <h3 class="text-xl font-semibold text-primary-600 mb-4 flex items-center">
+              <i class="fas fa-clinic-medical mr-2"></i>临床科室
+            </h3>
+            <p class="text-gray-700 dark:text-gray-200 mb-2">
+              急诊、内、外、妇、儿、眼、耳鼻喉、口腔、中医、麻醉、皮肤、感染、重症医学、预防保健等
+            </p>
+            <h3 class="text-xl font-semibold text-primary-600 mb-4 flex items-center"><i class="fas fa-flask mr-2"></i>医技科室</h3>
+            <p class="text-gray-700 dark:text-gray-200 mb-2">
+              药剂、检验、病理、手术、影像、康复、消毒供应室、内镜、营养、超声、心电图、高压氧等
+            </p>
+            <h3 class="text-xl font-semibold text-primary-600 mb-4 flex items-center"><i class="fas fa-star mr-2"></i>重点专科</h3>
+            <p class="text-gray-700 dark:text-gray-200">心血管内科、儿科、产科</p>
+          </div>
+          <div>
+            <h3 class="text-xl font-semibold text-primary-600 mb-4 flex items-center">
+              <i class="fas fa-microscope mr-2"></i>主要医疗设备
+            </h3>
+            <ul class="list-disc pl-6 text-gray-700 dark:text-gray-200 space-y-1">
+              <li>16排CT、进口双层亚秒螺旋CT、双板DR、动态三维彩色B超</li>
+              <li>电子胃、肠支纤镜、数字胃肠机、口腔全景X光机</li>
+              <li>腹腔镜、阴道镜、肾镜、输尿管镜、膀胱镜、前列腺汽化电切镜、关节镜</li>
+              <li>纤维鼻咽喉镜、鼻腔鼻窦内窥镜</li>
+              <li>全自动生化仪、免疫分析仪、细菌分析仪、微量元素检测仪</li>
+              <li>呼吸机、麻醉机、碎石仪、高压氧舱、C臂X光机、多功能生命监护系统等</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+    </main>
+    <!-- 页脚 -->
+    <footer class="bg-white dark:bg-gray-900 border-t border-primary-100 dark:border-primary-900 py-8 mt-12 fade-in">
+      <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex flex-col md:flex-row justify-between items-center">
+          <div class="flex items-center mb-4 md:mb-0">
+            <i class="fas fa-user-md text-primary-600 text-xl mr-2"></i>
+            <span class="font-semibold">医院均安</span>
+          </div>
+
+          <div class="text-gray-500 dark:text-gray-400 flex flex-col items-center md:items-end">
+            <a
+              href="https://beian.miit.gov.cn/#/Integrated/index"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="mt-2 text-sm text-black hover:text-primary-800 dark:hover:text-primary-400"
+              >粤ICP备2021064316号</a
+            >
+          </div>
+        </div>
+      </div>
+    </footer>
+    <script>
+      // 深色模式切换
+      const themeToggle = document.getElementById('theme-toggle');
+      if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.documentElement.classList.add('dark');
+      }
+      themeToggle.addEventListener('click', () => {
+        document.documentElement.classList.toggle('dark');
+      });
+      // 当前年份
+      document.getElementById('current-year').textContent = new Date().getFullYear();
+      // 图片懒加载
+      document.addEventListener('DOMContentLoaded', function () {
+        const lazyImages = document.querySelectorAll('.lazy-image');
+        if ('IntersectionObserver' in window) {
+          const lazyImageObserver = new IntersectionObserver(function (entries, observer) {
+            entries.forEach(function (entry) {
+              if (entry.isIntersecting) {
+                const img = entry.target;
+                img.src = img.dataset.src;
+                img.classList.remove('lazy-placeholder');
+                lazyImageObserver.unobserve(img);
+              }
+            });
+          });
+          lazyImages.forEach(function (img) {
+            img.classList.add('lazy-placeholder');
+            lazyImageObserver.observe(img);
+          });
+        } else {
+          // 兼容性处理
+          lazyImages.forEach(function (img) {
+            img.src = img.dataset.src;
+          });
+        }
+      });
+      // motion.js 动画
+      document.querySelectorAll('.fade-in').forEach(function (el, idx) {
+        motion.animate(el, { opacity: [0, 1], y: [20, 0] }, { delay: idx * 0.1, duration: 0.8, easing: 'ease-in-out' });
+      });
+    </script>
+  </body>
+</html>
